@@ -99,7 +99,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="px-4 navbar shadow-sm bg-[#333446] text-white noto-serif-Light">
+    <div className="px-4 navbar shadow-sm bg-[#333446] text-white noto-serif-Thin">
       <div className="container mx-auto flex justify-between items-center">
         
         <div className="navbar-start">
@@ -130,13 +130,12 @@ const NavBar = () => {
           <div className="flex items-center gap-2 ml-2">
             <NavLink to="/">
               <img
-                src="https://i.ibb.co/T5dX0wx/logo.jpg"
+                src="https://i.postimg.cc/PxG9zzzF/Logo.jpg"
                 alt="logo"
-                className="h-10 w-10 rounded-full object-cover"
+                className="h-15 w-15 rounded-full object-cover"
               />
             </NavLink>
-            <h1 className="text-xl font-semibold bubblegum-sans-regular hidden lg:block"></h1>
-              Next Pick
+            <h1 className="text-xl font-semibold bubblegum-sans-regular hidden lg:block">Next Pick</h1>
             
           </div>
         </div>

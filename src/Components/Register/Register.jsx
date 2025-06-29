@@ -3,6 +3,7 @@ import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 import NavBar from '../Header/NavBar';
 import { Link } from 'react-router';
+import Footer from '../Footer/Footer';
 
 
 const Register = () => {
@@ -119,6 +120,7 @@ const Register = () => {
             </div>
         </div>
         </div>
+        <Footer />
     </>
     
   );
