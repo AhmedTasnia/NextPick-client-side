@@ -1,9 +1,13 @@
-import React, { } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router"; // from react-router (not dom)
+import { AuthContext } from "../../provider/AuthProvider";
 // import { toast } from "react-toastify";
 // import { ToastContainer } from 'react-toastify';
 
 const NavBar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+
   const navigate = useNavigate();
   document.title = "HOME";
 
@@ -11,22 +15,18 @@ const NavBar = () => {
     navigate("/auth/login");
   };
 
-  const handleRegisterClick = () => {
-    navigate("/auth/register");
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-//   const handleLogOut = () => {
-//     logOut()
-//       .then(() => {
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   };
-
-//   const handleUserDetails = () => {
-//     navigate("/auth/userDetails");
-//   };
+  // const handleUserDetails = () => {
+  //   navigate("/auth/userDetails");
+  // };
   const links = (
     <>
       <li>
@@ -141,30 +141,22 @@ const NavBar = () => {
 
         <div className="navbar-end gap-3 flex items-center">
           {
-        //   user ?
-        //    (
-        //     <>
-        //       <img onClick={handleUserDetails}
-        //         src={user.photoURL || "https://via.placeholder.com/40"}
-        //         alt="User"
-        //         className="h-8 w-8 rounded-full border-2 border-white"
-        //       />
-        //       <span  className="hidden lg:block text-sm font-medium text-white">
-        //         Hi...{user.displayName || "User"}
-        //       </span>
-        //       <Link to="/">
-        //       <button
-        //         onClick={() => {
-        //           handleLogOut();
-        //           notify();
-        //         } }
-        //         className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
-        //       >
-        //         Logout
-        //       </button>
-        //       </Link>
-        //     </>
-        //   ) : 
+          user ?
+           (
+            <>
+              <Link to="/">
+              <button
+                onClick={() => {
+                  handleLogOut();
+                  // notify();
+                } }
+                className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
+              >
+                Logout
+              </button>
+              </Link>
+            </>
+          ) : 
           (
             <>
               <button
@@ -173,12 +165,12 @@ const NavBar = () => {
               >
                 Login
               </button>
-              <button
+              {/* <button
                 className="btn btn-sm bg-green-800 text-white hover:bg-green-600 border-0"
                 onClick={handleRegisterClick}
               >
                 Register
-              </button>
+              </button> */}
             </>
           )}
         </div>
