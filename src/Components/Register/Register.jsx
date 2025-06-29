@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import React, { use, useState } from 'react';
+import { FaEnvelope, FaLock, FaUser,  FaImage} from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 import NavBar from '../Header/NavBar';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import Footer from '../Footer/Footer';
+import { AuthContext } from '../../provider/AuthProvider';
 
 
 const Register = () => {
+  const { createUser, setUser, updateUser } = use(AuthContext);
+    const [ setNameError] = useState("");
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,10 +27,54 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+    const handleRegister = (e) => {
     e.preventDefault();
-    console.log('Registration Data:', formData);
+    console.log(e.target);
+    const form = e.target;
+    const name = form.name.value;
+    if (name.length < 5) {
+      setNameError("Name should be more then 5 character");
+      return;
+    } else {
+      setNameError("");
+    }
+    const photo = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log({ name, photo, email, password });
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            Navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            setUser(user);
+          });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage, errorCode);
+        // ..
+      });
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(e.target)
+
+
+  //   // console.log('Registration Data:', formData);
+  // };
+  
+
+
+  
 
   return (
     <>
@@ -36,7 +84,7 @@ const Register = () => {
         
             <div className="md:w-1/2 p-8">
             <h2 className="text-2xl font-bold mb-6">Sign up</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleRegister} className="space-y-4">
             
                 <div className="relative">
                 <FaUser className="absolute top-3 left-3 text-gray-400" />
@@ -65,12 +113,13 @@ const Register = () => {
                 </div>
 
                 <div className="relative">
-                <FaLock className="absolute top-3 left-3 text-gray-400" />
+                  <FaImage className="absolute top-3 left-3 text-gray-400" />
+                  {/* <FontAwesomeIcon icon="fa-solid fa-image" /> */}
                 <input
                     type="PhotoURL"
                     name="PhotoURL"
                     placeholder="Photo URL"
-                    value={formData.password}
+                    value={formData.PhotoURL}
                     onChange={handleChange}
                     required
                     className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,13 +132,12 @@ const Register = () => {
                     type="password"
                     name="password"
                     placeholder="Password"
-                    value={formData.confirmPassword}
+                    value={formData.Password}
                     onChange={handleChange}
                     required
                     className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 </div>
-
 
                 <Link to="/auth/login" className="w-full md:w-auto">
                 <p className="mt-4 text-sm text-center mb-4 text-gray-600">

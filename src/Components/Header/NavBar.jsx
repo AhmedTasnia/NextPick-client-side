@@ -7,11 +7,6 @@ const NavBar = () => {
   const navigate = useNavigate();
   document.title = "HOME";
 
-    // const notify = () => toast("Logged Out successfully");
-    // const notify1 = () => toast("Logged In successfully");
-
-
-
   const handleLoginClick = () => {
     navigate("/auth/login");
   };
