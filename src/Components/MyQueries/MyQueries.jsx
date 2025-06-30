@@ -86,7 +86,7 @@ const MyQueries = () => {
         </div>
 
         {/* My Queries Section */}
-        <div className="max-w-6xl mx-auto p-6">
+        <div className="container mx-auto p-6">
           {queries.length === 0 ? (
             <div className="text-center py-16">
               <h2 className="text-2xl mb-4">No queries found.</h2>
@@ -103,12 +103,12 @@ const MyQueries = () => {
               <div className="mb-6 text-right flex justify-end gap-3">
                 {[1, 2, 3].map((cols, idx) => {
                   const icons = [<FaThList />, <FaThLarge />, <FaTh />];
-                  const labels = ["1 Column", "2 Columns", "3 Columns"];
+                  const labels = ["", "", ""];
                   return (
                     <button
                       key={cols}
                       onClick={() => setGridLayout(cols)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded ${
+                      className={`flex items-center gap-2 px-4 py-2 rounded-4 ${
                         gridLayout === cols
                           ? "bg-blue-700 text-white"
                           : "bg-gray-300 text-gray-700 hover:bg-gray-400"

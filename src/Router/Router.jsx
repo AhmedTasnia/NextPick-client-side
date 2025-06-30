@@ -33,7 +33,6 @@ export const router = createBrowserRouter([
   },
    {
     path: "/MyQueries",
-    
     Component: MyQueries,
   },
   {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link } from "react-router"; // fixed import to react-router-dom
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
 
 const QueryDetails = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [query, setQuery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -50,7 +50,7 @@ const QueryDetails = () => {
   return (
     <>
       <NavBar />
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-blue-800 mb-6 text-center">
           Query Details
         </h1>
@@ -64,33 +64,27 @@ const QueryDetails = () => {
             />
           </div>
 
-          <div>
+          <div className="container mx-auto">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{query.queryTitle}</h2>
+
             <p className="text-lg text-gray-700 mb-2">
               <span className="font-semibold">Product Name:</span> {query.productName}
             </p>
             <p className="text-lg text-gray-700 mb-2">
-              <span className="font-semibold">Brand:</span> {query.productBrand}
+              <span className="font-semibold">Product Brand:</span> {query.productBrand}
             </p>
+
             <p className="text-md text-gray-600 mb-4">
-              <span className="font-semibold">Description:</span><br />
-              {query.description}
+              <span className="font-semibold">Reason foe Boycott:</span><br />
+              {query.reason || "N/A"}
             </p>
+
             <p className="text-sm text-gray-500 mb-2">
               Posted on: {query.timestamp ? new Date(query.timestamp).toLocaleString() : "N/A"}
             </p>
             <p className="text-blue-600 font-semibold text-lg">
               Recommendations: {query.recommendationCount ?? 0}
             </p>
-
-            <div className="mt-6">
-              <Link
-                to="/my-queries"
-                className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-              >
-                ← Back to My Queries
-              </Link>
-            </div>
           </div>
         </div>
       </div>
