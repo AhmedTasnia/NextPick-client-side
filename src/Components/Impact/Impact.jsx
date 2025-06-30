@@ -3,8 +3,10 @@ import { MessageCircleHeart, Users, HelpCircle } from "lucide-react";
 
 const Impact = () => {
   return (
-    <section className="bg-[#B8CFCE] dark:bg-[#1e293b] py-16 px-4 md:px-10">
-      <div className="max-w-6xl mx-auto text-center">
+    <>
+    <div className="">
+      <section className=" bg-[#B8CFCE] dark:bg-[#1e293b] py-16 px-4 md:px-10">
+      <div className="max-w-7xl mx-auto text-center">
         <h2
           className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4"
           data-aos="fade-up"
@@ -63,6 +65,8 @@ const Impact = () => {
         </div>
       </div>
     </section>
+    </div>
+    </>
   );
 };
 
