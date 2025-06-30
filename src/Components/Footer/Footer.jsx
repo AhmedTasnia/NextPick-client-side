@@ -1,58 +1,56 @@
-import React from "react";
-import { FaFacebookF, FaInstagram, FaPinterestP } from "react-icons/fa";
+import React from 'react';
+import { FaFacebookF, FaTwitter, FaGooglePlusG, FaInstagram } from 'react-icons/fa';
+import { WiCloudy } from 'react-icons/wi';
 
 const Footer = () => {
   return (
-    <footer
-      className="text-center py-10 relative overflow-hidden fira-sans"
-      style={{
+    <footer className="bg-[#333446] text-white py-8 px-4">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
 
-        backgroundColor: "#333446",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="bg-[#fdfcf9]/80 dark:bg-[#1a1a1a]/80 backdrop-blur-sm p-6 rounded-lg max-w-6xl mx-auto">
-     
-        <div className="flex justify-center items-center gap-2 mb-4">
-          <img
-            src="https://i.postimg.cc/PxG9zzzF/Logo.jpg"
-            alt="logo"
-            className="h-10 w-10 rounded-full object-cover"
-          />
-          <h1 className="text-2xl font-dynapuff font-bold text-[#333446] dark:text-green-300">
-            Next Pick
-          </h1>
+        {/* Weather Section */}
+        <div>
+          <h4 className="text-sm text-gray-400 mb-2">Current weather</h4>
+          <p className="mb-1">Venice old town</p>
+          <div className="flex items-center gap-2">
+            <WiCloudy size={28} />
+            <span className="text-lg">17<sup>°C</sup></span>
+          </div>
         </div>
 
-        <div className="mb-6">
-          <button className="border-2 border-[#3F4F44] text-[#3F4F44] dark:text-[#3F4F44] px-6 py-2 rounded-full hover:bg-[#3F4F44] hover:text-white transition flex items-center justify-center gap-2 mx-auto fira-sans-semibold">
-            <span>🟌</span> Free Queries
-          </button>
-        </div>
-
-        <div className="text-gray-700 dark:text-gray-300 mb-4 fira-sans-regular">
-          <p>Call Us: 800-454-9272</p>
-          <p>Dhaka, Bangladesh – 1060 SenaKunho, Banani</p>
-        </div>
-
-        <div className="flex justify-center items-center gap-6 text-[#333446] dark:text-green-300 text-xl mb-6">
-          <a href="#" title="Facebook" className="hover:text-[#333446]">
+        {/* Social Media Section */}
+        <div>
+          <h4 className="text-sm text-gray-400 mb-2">Connect with us</h4>
+          <p className="mb-1">Social media channels</p>
+          <div className="flex gap-4 mt-2 text-white">
             <FaFacebookF />
-          </a>
-          <a href="#" title="Pinterest" className="hover:text-[#333446]">
-            <FaPinterestP />
-          </a>
-          <a href="#" title="Instagram" className="hover:text-[#333446]">
+            <FaTwitter />
+            <FaGooglePlusG />
             <FaInstagram />
-          </a>
+          </div>
         </div>
 
-        <div className="text-sm text-gray-500 dark:text-gray-400 fira-sans-regular">
-          <p>© 2025 Product Review Theme by Next Pick. All rights reserved.</p>
-          <p>Proudly powered by WordPress.</p>
+        {/* Newsletter Section */}
+        <div>
+          <h4 className="text-sm text-gray-400 mb-2">Newsletter sign up</h4>
+          <p className="mb-2">Sign up for special offers</p>
+          <div className="flex overflow-hidden rounded-sm">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full px-3 py-2 text-white outline-white border-2 border-[#b19472] bg-transparent focus:border-[#b19472] focus:ring-0"
+            />
+            <button className="bg-[#b19472] px-4 py-2 text-white">Sign Up</button>
+          </div>
+          <p className="mt-2 text-xs text-gray-400">
+            Is this your website? <a href="#" className="text-[#b19472] underline">Claim your form</a> to manage and email your new subscribers!
+          </p>
         </div>
+      </div>
+
+      {/* Copyright Section */}
+      <div className="text-sm text-gray-500 dark:text-gray-400 fira-sans-regular text-center mt-8">
+        <p>© 2025 Product Review Theme by Next Pick. All rights reserved.</p>
+        <p>Proudly powered by WordPress.</p>
       </div>
     </footer>
   );

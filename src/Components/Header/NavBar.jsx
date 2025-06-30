@@ -1,15 +1,10 @@
 import React, { useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router"; // from react-router (not dom)
+import { Link, NavLink, useNavigate } from "react-router"; // ✅ FIXED import
 import { AuthContext } from "../../provider/AuthProvider";
-// import { toast } from "react-toastify";
-// import { ToastContainer } from 'react-toastify';
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
-
-
   const navigate = useNavigate();
-  document.title = "HOME";
 
   const handleLoginClick = () => {
     navigate("/auth/login");
@@ -18,24 +13,20 @@ const NavBar = () => {
   const handleLogOut = () => {
     logOut()
       .then(() => {
+        navigate("/"); // ✅ Redirect to Home after logout
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Logout error:", error);
       });
   };
 
-  // const handleUserDetails = () => {
-  //   navigate("/auth/userDetails");
-  // };
-  const links = (
+  const commonLinks = (
     <>
       <li>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive
-              ? "text-[#B8CFCE] dark:text-amber-300 fira-sans-bold underline pb-1"
-              : "text-[#EAEFEF] dark:text-gray-300 fira-sans-regular"
+            isActive ? "text-[#B8CFCE] underline pb-1" : "text-white"
           }
         >
           Home
@@ -43,23 +34,24 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/ExploreGardener"
+          to="/AllQueries"
           className={({ isActive }) =>
-            isActive
-              ? "text-[#B8CFCE] dark:text-amber-300 font-bold underline pb-1"
-              : "text-[#EAEFEF] dark:text-gray-300"
+            isActive ? "text-[#B8CFCE] underline pb-1" : "text-white"
           }
         >
           Queries
         </NavLink>
       </li>
+    </>
+  );
+
+  const privateLinks = user && (
+    <>
       <li>
         <NavLink
-          to="/BrowseTips"
+          to="/RecommendationsForMe"
           className={({ isActive }) =>
-            isActive
-              ? "text-[#B8CFCE] dark:text-amber-300 fira-sans-semibold underline pb-1"
-              : "text-[#EAEFEF] dark:text-gray-300"
+            isActive ? "text-[#B8CFCE] underline pb-1" : "text-white"
           }
         >
           Recommendations For Me
@@ -67,11 +59,9 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/BrowseTips"
+          to="/MyQueries"
           className={({ isActive }) =>
-            isActive
-              ? "text-[#B8CFCE] dark:text-amber-300 fira-sans-semibold underline pb-1"
-              : "text-[#EAEFEF] dark:text-gray-300"
+            isActive ? "text-[#B8CFCE] underline pb-1" : "text-white"
           }
         >
           My Queries
@@ -79,27 +69,27 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/BrowseTips"
+          to="/MyRecommendations"
           className={({ isActive }) =>
-            isActive
-              ? "text-[#B8CFCE] dark:text-amber-300 fira-sans-semibold underline pb-1"
-              : "text-[#EAEFEF] dark:text-gray-300"
+            isActive ? "text-[#B8CFCE] underline pb-1" : "text-white"
           }
         >
-          My recommendations
+          My Recommendations
         </NavLink>
       </li>
-   
     </>
   );
 
   return (
-    <div className="px-4 navbar shadow-sm bg-[#333446] text-white noto-serif-Thin">
+    <div className="px-4 navbar shadow-sm bg-[#333446] text-white">
       <div className="container mx-auto flex justify-between items-center">
-        
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost lg:hidden"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -117,9 +107,10 @@ const NavBar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
             >
-              {links}
+              {commonLinks}
+              {privateLinks}
             </ul>
           </div>
           <div className="flex items-center gap-2 ml-2">
@@ -127,58 +118,42 @@ const NavBar = () => {
               <img
                 src="https://i.postimg.cc/PxG9zzzF/Logo.jpg"
                 alt="logo"
-                className="h-15 w-15 rounded-full object-cover"
+                className="h-10 w-10 rounded-full object-cover"
               />
             </NavLink>
-            <h1 className="text-xl font-semibold bubblegum-sans-regular hidden lg:block">Next Pick</h1>
-            
+            <h1 className="text-xl font-semibold hidden lg:block">
+              Next Pick
+            </h1>
           </div>
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{links}</ul>
+          <ul className="menu menu-horizontal px-1">
+            {commonLinks}
+            {privateLinks}
+          </ul>
         </div>
 
         <div className="navbar-end gap-3 flex items-center">
-          {
-          user ?
-           (
-            <>
-              <Link to="/">
-              <button
-                onClick={() => {
-                  handleLogOut();
-                  // notify();
-                } }
-                className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
-              >
-                Logout
-              </button>
-              </Link>
-            </>
-          ) : 
-          (
-            <>
-              <button
-                className="btn btn-sm bg-[#B8CFCE] text-black hover:bg-yellow-500 border-0"
-                onClick={handleLoginClick}
-              >
-                Login
-              </button>
-              {/* <button
-                className="btn btn-sm bg-green-800 text-white hover:bg-green-600 border-0"
-                onClick={handleRegisterClick}
-              >
-                Register
-              </button> */}
-            </>
+          {user ? (
+            <button
+              onClick={handleLogOut}
+              className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className="btn btn-sm bg-[#B8CFCE] text-black hover:bg-yellow-500 border-0"
+              onClick={handleLoginClick}
+            >
+              Login
+            </button>
           )}
         </div>
       </div>
-      {/* <ToastContainer /> */}
     </div>
   );
 };
 
 export default NavBar;
-

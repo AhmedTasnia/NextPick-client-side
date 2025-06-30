@@ -4,6 +4,10 @@ import Root from '../pages/Root/Root';
 import Register from '../Components/Register/Register';
 import SignUp from '../Components/SignUp/Login';
 import Login from '../Components/SignUp/Login';
+import MyQueries from '../Components/MyQueries/MyQueries';
+import AddQueries from '../Components/AddQueries/AddQueries';
+import AllQueries from '../Components/AllQueries/AllQueries';
+import QueryDetails from '../Components/QueriesDetails/QueryDetails';
 
 
 
@@ -26,6 +30,24 @@ export const router = createBrowserRouter([
   {
     path: "/auth/login",
     Component: Login,
+  },
+   {
+    path: "/MyQueries",
+    
+    Component: MyQueries,
+  },
+  {
+    path: "/AddQueries",
+    Component: AddQueries,
+  },
+  {
+    path: "/AllQueries",
+    loader: () => fetch('http://localhost:3000/AddQueries'),
+    Component: AllQueries,
+  },
+  {
+    path: "/query-details/:id",
+    Component: QueryDetails,
   },
 
   
