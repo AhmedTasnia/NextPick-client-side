@@ -26,10 +26,8 @@ const AllQueries = () => {
   // This handles what happens on Recommend click
   const handleRecommendClick = (queryId) => {
     if (!user) {
-      // Not logged in → redirect to login page
       navigate("/auth/login");
     } else {
-      // Logged in → go to details page for that query
       navigate(`/query-details/${queryId}`);
     }
   };

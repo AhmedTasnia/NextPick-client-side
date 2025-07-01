@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router"; 
+import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const QueryDetails = () => {
   const { id } = useParams();
+  const { user } = useContext(AuthContext); 
+
   const [query, setQuery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-
+  // Form states
   const [recTitle, setRecTitle] = useState("");
   const [recProductName, setRecProductName] = useState("");
   const [recProductImage, setRecProductImage] = useState("");
   const [recReason, setRecReason] = useState("");
-  const [submitStatus, setSubmitStatus] = useState(null);
 
   useEffect(() => {
     const fetchQueryById = async () => {
@@ -37,25 +40,33 @@ const QueryDetails = () => {
   const handleRecommendationSubmit = async (e) => {
     e.preventDefault();
 
-  
+    if (!user) {
+      alert("You must be logged in to submit a recommendation.");
+      return;
+    }
+
     const recommendationData = {
       recommendationTitle: recTitle,
       recommendedProductName: recProductName,
       recommendedProductImage: recProductImage,
       recommendationReason: recReason,
-      relatedQueryId: id,
+      relatedQueryId: query._id,
+      queryTitle: query.queryTitle,
+      productName: query.productName,
+      queryOwnerEmail: query.userEmail,
+      queryOwnerName: query.userName,
+      recommenderEmail: user.email,
+      recommenderName: user.displayName || "Anonymous",
       timestamp: new Date().toISOString(),
     };
 
     console.log("Submitting Recommendation:", recommendationData);
 
- 
-    setSubmitStatus("Recommendation submitted successfully!");
+    setSubmitStatus("✅ Recommendation submitted successfully!");
     setRecTitle("");
     setRecProductName("");
     setRecProductImage("");
     setRecReason("");
-
   };
 
   if (loading) {
@@ -128,7 +139,7 @@ const QueryDetails = () => {
             <p className="mb-4 text-green-600 font-medium text-center">{submitStatus}</p>
           )}
 
-          <form onSubmit={handleRecommendationSubmit} className="space-y-6 max-w-xl mx-auto">
+          <form onSubmit={handleRecommendationSubmit} className="space-y-6 max-w-3xl mx-auto">
             <div>
               <label htmlFor="recTitle" className="block mb-1 font-semibold">
                 Recommendation Title
@@ -139,7 +150,7 @@ const QueryDetails = () => {
                 value={recTitle}
                 onChange={(e) => setRecTitle(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full border border-gray-300 rounded px-3 py-2"
                 placeholder="Enter recommendation title"
               />
             </div>
@@ -154,7 +165,7 @@ const QueryDetails = () => {
                 value={recProductName}
                 onChange={(e) => setRecProductName(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full border border-gray-300 rounded px-3 py-2"
                 placeholder="Enter recommended product name"
               />
             </div>
@@ -168,7 +179,7 @@ const QueryDetails = () => {
                 type="url"
                 value={recProductImage}
                 onChange={(e) => setRecProductImage(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full border border-gray-300 rounded px-3 py-2"
                 placeholder="Enter image URL"
               />
             </div>
@@ -183,7 +194,7 @@ const QueryDetails = () => {
                 onChange={(e) => setRecReason(e.target.value)}
                 required
                 rows={4}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full border border-gray-300 rounded px-3 py-2"
                 placeholder="Why do you recommend this product?"
               />
             </div>
@@ -191,7 +202,7 @@ const QueryDetails = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded"
               >
                 Add Recommendation
               </button>
