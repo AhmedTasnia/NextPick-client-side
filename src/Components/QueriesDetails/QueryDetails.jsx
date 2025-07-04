@@ -152,7 +152,7 @@ const QueryDetails = () => {
             Add A Recommendation
           </h2>
 
-          <form onSubmit={handleRecommendationSubmit} className="space-y-6 max-w-3xl mx-auto">
+          <form onSubmit={handleRecommendationSubmit} className="space-y-6 container mx-auto">
             <div>
               <label htmlFor="recTitle" className="block mb-1 font-semibold">
                 Recommendation Title

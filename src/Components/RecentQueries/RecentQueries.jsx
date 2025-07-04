@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router"; 
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const RecentQueries = () => {
+  const { user } = useContext(AuthContext); // ✅ get user from context
   const [recentQueries, setRecentQueries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -9,11 +11,10 @@ const RecentQueries = () => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await fetch("http://localhost:3000/AddQueries"); 
+        const res = await fetch("http://localhost:3000/AddQueries");
         if (!res.ok) throw new Error("Failed to fetch queries");
         const data = await res.json();
 
-        
         const latestSix = data
           .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
           .slice(0, 6);
@@ -31,7 +32,7 @@ const RecentQueries = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12 ">
+    <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-blue-700 mb-10 text-center">
         🆕 Recent Product Queries
       </h1>
@@ -56,12 +57,10 @@ const RecentQueries = () => {
                 {query.queryTitle}
               </h2>
               <p className="text-gray-600 text-sm mb-1">
-                <span className="font-semibold">Product:</span>{" "}
-                {query.productName}
+                <span className="font-semibold">Product:</span> {query.productName}
               </p>
               <p className="text-gray-600 text-sm mb-1">
-                <span className="font-semibold">Brand:</span>{" "}
-                {query.productBrand}
+                <span className="font-semibold">Brand:</span> {query.productBrand}
               </p>
               <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                 <span className="font-semibold">Reason:</span>{" "}
@@ -75,7 +74,7 @@ const RecentQueries = () => {
               </p>
 
               <Link
-                to={`/query/${query._id}`}
+                to={user ? `/query-details/${query._id}` : "/login"} // ✅ conditional redirect
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded"
               >
                 View Details

@@ -8,6 +8,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 const AllQueries = () => {
   const [queries, setQueries] = useState([]);
   const [gridLayout, setGridLayout] = useState(3);
+  const [searchText, setSearchText] = useState(""); // ⬅️ Search input state
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -23,7 +24,6 @@ const AllQueries = () => {
       .catch((err) => console.error("Error fetching queries:", err));
   }, []);
 
-  // This handles what happens on Recommend click
   const handleRecommendClick = (queryId) => {
     if (!user) {
       navigate("/auth/login");
@@ -31,6 +31,11 @@ const AllQueries = () => {
       navigate(`/query-details/${queryId}`);
     }
   };
+
+  // Filter queries based on search text
+  const filteredQueries = queries.filter((query) =>
+    query.productName?.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <>
@@ -46,26 +51,36 @@ const AllQueries = () => {
           </p>
         </div>
 
-        {/* Layout Toggle */}
-        <div className="flex justify-end gap-3 mb-8">
-          {[1, 2, 3].map((n) => {
-            const icons = [<FaThList />, <FaThLarge />, <FaTh />];
-            const titles = ["1 Column", "2 Columns", "3 Columns"];
-            return (
-              <button
-                key={n}
-                onClick={() => setGridLayout(n)}
-                className={`p-3 rounded-full text-white text-lg shadow-md transition ${
-                  gridLayout === n
-                    ? "bg-blue-800"
-                    : "bg-gray-500 hover:bg-gray-600"
-                }`}
-                title={titles[n - 1]}
-              >
-                {icons[n - 1]}
-              </button>
-            );
-          })}
+        {/* Search + Layout Toggle */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <input
+            type="text"
+            placeholder="Search by Product Name..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="border px-4 py-2 rounded-lg shadow-sm w-full sm:w-1/2"
+          />
+
+          <div className="flex justify-end gap-3">
+            {[1, 2, 3].map((n) => {
+              const icons = [<FaThList />, <FaThLarge />, <FaTh />];
+              const titles = ["1 Column", "2 Columns", "3 Columns"];
+              return (
+                <button
+                  key={n}
+                  onClick={() => setGridLayout(n)}
+                  className={`p-3 rounded-full text-white text-lg shadow-md transition ${
+                    gridLayout === n
+                      ? "bg-blue-800"
+                      : "bg-gray-500 hover:bg-gray-600"
+                  }`}
+                  title={titles[n - 1]}
+                >
+                  {icons[n - 1]}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Grid of Cards */}
@@ -78,49 +93,54 @@ const AllQueries = () => {
               : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           }`}
         >
-          {queries.map((query) => (
-            <div
-              key={query._id}
-              className="bg-white p-6 rounded-xl border border-blue-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
-            >
-              {query.productImage && (
-                <img
-                  src={query.productImage}
-                  alt={query.productName}
-                  className="w-full h-48 object-cover rounded-md mb-4"
-                />
-              )}
-              <h2 className="text-2xl font-bold text-blue-800 mb-1">
-                {query.title}
-              </h2>
-              <h3 className="text-md text-blue-500 font-medium mb-2 italic">
-                {query.queryTitle}
-              </h3>
-              <p className="text-gray-700 mb-3">{query.description}</p>
-              <div className="text-sm text-gray-600 mb-1">
-                <strong>Product Name:</strong> {query.productName || "N/A"}
+          {filteredQueries.length > 0 ? (
+            filteredQueries.map((query) => (
+              <div
+                key={query._id}
+                className="bg-white p-6 rounded-xl border border-blue-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+              >
+                {query.productImage && (
+                  <img
+                    src={query.productImage}
+                    alt={query.productName}
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                  />
+                )}
+                <h2 className="text-2xl font-bold text-blue-800 mb-1">
+                  {query.title}
+                </h2>
+                <h3 className="text-md text-blue-500 font-medium mb-2 italic">
+                  {query.queryTitle}
+                </h3>
+                <p className="text-gray-700 mb-3">{query.description}</p>
+                <div className="text-sm text-gray-600 mb-1">
+                  <strong>Product Name:</strong> {query.productName || "N/A"}
+                </div>
+                <div className="text-sm text-gray-600 mb-1">
+                  <strong>Product Brand:</strong> {query.productBrand || "N/A"}
+                </div>
+                <div className="text-sm text-gray-500 mb-4">
+                  Posted on: {new Date(query.timestamp).toLocaleString()}
+                </div>
+                <div className="flex justify-between items-center mt-auto pt-4 border-t">
+                  <span className="text-blue-700 font-semibold text-sm">
+                    💙 {query.recommendationCount || 0} Recommendations
+                  </span>
+                  <button
+                    onClick={() => handleRecommendClick(query._id)}
+                    className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center gap-2 text-sm font-medium"
+                  >
+                    <FaHeart />
+                    Recommend
+                  </button>
+                </div>
               </div>
-              <div className="text-sm text-gray-600 mb-1">
-                <strong>Product Brand:</strong> {query.productBrand || "N/A"}
-              </div>
-              <div className="text-sm text-gray-500 mb-4">
-                Posted on: {new Date(query.timestamp).toLocaleString()}
-              </div>
-              <div className="flex justify-between items-center mt-auto pt-4 border-t">
-                <span className="text-blue-700 font-semibold text-sm">
-                  💙 {query.recommendationCount || 0} Recommendations
-                </span>
-                {/* Use button instead of Link for controlled navigation */}
-                <button
-                  onClick={() => handleRecommendClick(query._id)}
-                  className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center gap-2 text-sm font-medium"
-                >
-                  <FaHeart />
-                  Recommend
-                </button>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center col-span-full text-gray-500 text-lg">
+              No queries matched your search.
+            </p>
+          )}
         </div>
       </div>
       <Footer />
