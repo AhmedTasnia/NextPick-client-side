@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router"; // ✅ make sure you're using react-router-dom
+import { Link } from "react-router"; 
 
 const RecentQueries = () => {
   const [recentQueries, setRecentQueries] = useState([]);
@@ -9,11 +9,11 @@ const RecentQueries = () => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await fetch("http://localhost:3000/AddQueries"); // ✅ fetch from AddQueries.json
+        const res = await fetch("http://localhost:3000/AddQueries"); 
         if (!res.ok) throw new Error("Failed to fetch queries");
         const data = await res.json();
 
-        // ✅ Sort by timestamp and get last 6
+        
         const latestSix = data
           .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
           .slice(0, 6);

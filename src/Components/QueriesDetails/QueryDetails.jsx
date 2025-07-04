@@ -3,17 +3,16 @@ import { useParams } from "react-router";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const QueryDetails = () => {
   const { id } = useParams();
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
 
   const [query, setQuery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [submitStatus, setSubmitStatus] = useState(null);
 
-  // Form states
   const [recTitle, setRecTitle] = useState("");
   const [recProductName, setRecProductName] = useState("");
   const [recProductImage, setRecProductImage] = useState("");
@@ -41,7 +40,7 @@ const QueryDetails = () => {
     e.preventDefault();
 
     if (!user) {
-      alert("You must be logged in to submit a recommendation.");
+      Swal.fire("Warning", "You must be logged in to submit a recommendation.", "warning");
       return;
     }
 
@@ -60,13 +59,36 @@ const QueryDetails = () => {
       timestamp: new Date().toISOString(),
     };
 
-    console.log("Submitting Recommendation:", recommendationData);
+    try {
+      const res = await fetch("http://localhost:3000/recommendations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recommendationData),
+      });
 
-    setSubmitStatus("✅ Recommendation submitted successfully!");
-    setRecTitle("");
-    setRecProductName("");
-    setRecProductImage("");
-    setRecReason("");
+      const result = await res.json();
+
+      if (result.success) {
+        Swal.fire("Success!", "Recommendation submitted successfully.", "success");
+
+        setRecTitle("");
+        setRecProductName("");
+        setRecProductImage("");
+        setRecReason("");
+
+        setQuery((prev) => ({
+          ...prev,
+          recommendationCount: (prev.recommendationCount || 0) + 1,
+        }));
+      } else {
+        Swal.fire("Error", "Failed to submit recommendation.", "error");
+      }
+    } catch (err) {
+      console.error("Error submitting recommendation:", err);
+      Swal.fire("Error", "An error occurred. Try again later.", "error");
+    }
   };
 
   if (loading) {
@@ -93,9 +115,7 @@ const QueryDetails = () => {
     <>
       <NavBar />
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <h1 className="text-4xl font-bold text-blue-800 mb-6 text-center">
-          Query Details
-        </h1>
+        <h1 className="text-4xl font-bold text-blue-800 mb-6 text-center">Query Details</h1>
 
         <div className="bg-white shadow-lg rounded-lg p-6 grid gap-6 md:grid-cols-2 mb-12">
           <div>
@@ -108,19 +128,16 @@ const QueryDetails = () => {
 
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{query.queryTitle}</h2>
-
             <p className="text-lg text-gray-700 mb-2">
               <span className="font-semibold">Product Name:</span> {query.productName}
             </p>
             <p className="text-lg text-gray-700 mb-2">
               <span className="font-semibold">Brand:</span> {query.productBrand}
             </p>
-
             <p className="text-md text-gray-600 mb-4">
               <span className="font-semibold">Reason for Boycott:</span><br />
               {query.reason || "N/A"}
             </p>
-
             <p className="text-sm text-gray-500 mb-2">
               Posted on: {query.timestamp ? new Date(query.timestamp).toLocaleString() : "N/A"}
             </p>
@@ -134,10 +151,6 @@ const QueryDetails = () => {
           <h2 className="text-3xl font-semibold mb-6 text-center text-blue-700">
             Add A Recommendation
           </h2>
-
-          {submitStatus && (
-            <p className="mb-4 text-green-600 font-medium text-center">{submitStatus}</p>
-          )}
 
           <form onSubmit={handleRecommendationSubmit} className="space-y-6 max-w-3xl mx-auto">
             <div>

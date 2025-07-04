@@ -8,6 +8,8 @@ import MyQueries from '../Components/MyQueries/MyQueries';
 import AddQueries from '../Components/AddQueries/AddQueries';
 import AllQueries from '../Components/AllQueries/AllQueries';
 import QueryDetails from '../Components/QueriesDetails/QueryDetails';
+import MyRecommandation from '../Components/MyRecommendation/MyRecommendation';
+import RecommendationsForMe from '../Components/RecomandationForMe/RecomandationsForMe';
 
 
 
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
   {
     path: "/query-details/:id",
     Component: QueryDetails,
+  },
+  {
+    path: "/MyRecommendations",
+    Component: MyRecommandation,
+  },
+   {
+    path: "/RecommendationsForMe",
+    Component: RecommendationsForMe,
   },
 
   
