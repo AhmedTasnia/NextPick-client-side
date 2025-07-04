@@ -136,12 +136,22 @@ const NavBar = () => {
 
         <div className="navbar-end gap-3 flex items-center">
           {user ? (
-            <button
-              onClick={handleLogOut}
-              className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
-            >
-              Logout
-            </button>
+            <>
+              <div className="flex items-center gap-2">
+                <img
+                  src={user.photoURL || "https://i.postimg.cc/3x1f5z6C/user.png"}
+                  alt="User Avatar"
+                  className="h-9 w-9 rounded-full object-cover"
+                />
+                <span className="hidden lg:block">{user.displayimg}</span>
+              </div>
+              <button
+                onClick={handleLogOut}
+                className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <button
               className="btn btn-sm bg-[#B8CFCE] text-black hover:bg-yellow-500 border-0"
