@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router"; // ✅ Correct import
+import { Link } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
@@ -16,6 +16,14 @@ const MyQueries = () => {
   const { user } = useContext(AuthContext);
   const [queries, setQueries] = useState([]);
   const [gridLayout, setGridLayout] = useState(3);
+  const [editingQuery, setEditingQuery] = useState(null);
+  const [formData, setFormData] = useState({
+    productName: "",
+    productBrand: "",
+    queryTitle: "",
+    description: "",
+    productImage: "",
+  });
 
   useEffect(() => {
     if (!user?.email) return;
@@ -56,26 +64,72 @@ const MyQueries = () => {
     });
   };
 
+  const handleUpdate = (query) => {
+    setEditingQuery(query);
+    setFormData({
+      productName: query.productName,
+      productBrand: query.productBrand,
+      queryTitle: query.queryTitle,
+      description: query.description,
+      productImage: query.productImage,
+    });
+  };
+
+  const handleInputChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmitUpdate = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to update this query?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(`http://localhost:3000/update-query/${editingQuery._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to update query");
+
+      const updated = await res.json();
+      setQueries((prev) =>
+        prev.map((q) => (q._id === editingQuery._id ? updated : q))
+      );
+      setEditingQuery(null);
+
+      Swal.fire("Updated!", "Your query has been updated.", "success");
+    } catch (error) {
+      console.error("Update error:", error);
+      Swal.fire("Error", "Failed to update query.", "error");
+    }
+  };
+
   return (
     <>
       <NavBar />
       <div>
-        {/* Banner */}
         <div
           className="relative h-[70vh] w-full bg-cover bg-center flex items-center justify-center"
-          style={{
-            backgroundImage:
-              "url('https://i.ibb.co/fn9hmtd/d6fc93bc-aaf4-4683-aa31-699548286a86.png')",
-          }}
+          style={{ backgroundImage: "url('https://i.ibb.co/fn9hmtd/d6fc93bc-aaf4-4683-aa31-699548286a86.png')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
           <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              My Queries (Private)
-            </h1>
-            <p className="text-lg mb-6">
-              View and manage all your submitted queries here.
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">My Queries (Private)</h1>
+            <p className="text-lg mb-6">View and manage all your submitted queries here.</p>
             <Link
               to="/AddQueries"
               className="bg-[#e5cfa0] text-black px-6 py-2 font-semibold rounded hover:bg-[#d3b981] transition"
@@ -85,7 +139,6 @@ const MyQueries = () => {
           </div>
         </div>
 
-        {/* My Queries Section */}
         <div className="container mx-auto p-6">
           {queries.length === 0 ? (
             <div className="text-center py-16">
@@ -99,28 +152,23 @@ const MyQueries = () => {
             </div>
           ) : (
             <>
-              {/* Layout Buttons */}
               <div className="mb-6 text-right flex justify-end gap-3">
                 {[1, 2, 3].map((cols, idx) => {
                   const icons = [<FaThList />, <FaThLarge />, <FaTh />];
-                  const labels = ["", "", ""];
                   return (
                     <button
                       key={cols}
                       onClick={() => setGridLayout(cols)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-4 ${
-                        gridLayout === cols
-                          ? "bg-blue-700 text-white"
-                          : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                        gridLayout === cols ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"
                       }`}
                     >
-                      {icons[idx]} {labels[idx]}
+                      {icons[idx]}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Grid */}
               <div
                 className={`grid gap-6 ${
                   gridLayout === 1
@@ -140,18 +188,14 @@ const MyQueries = () => {
                       alt={query.productName}
                       className="w-full h-48 object-cover rounded-xl mb-4 shadow"
                     />
-                    <h3 className="text-xl font-bold text-blue-900 mb-1">
-                      {query.queryTitle}
-                    </h3>
+                    <h3 className="text-xl font-bold text-blue-900 mb-1">{query.queryTitle}</h3>
                     <p className="text-sm text-gray-800 font-medium mb-1">
                       Product: <span className="font-semibold">{query.productName}</span>
                     </p>
                     <p className="text-sm text-gray-700 mb-1">
                       Brand: <span className="font-medium">{query.productBrand}</span>
                     </p>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {query.description}
-                    </p>
+                    <p className="text-sm text-gray-600 mb-2">{query.description}</p>
                     <p className="text-xs text-gray-500 mb-4">
                       Posted on: {new Date(query.timestamp).toLocaleString()}
                     </p>
@@ -162,12 +206,12 @@ const MyQueries = () => {
                       >
                         View Details
                       </Link>
-                      <Link
-                        to={`/update-query/${query._id}`}
+                      <button
+                        onClick={() => handleUpdate(query)}
                         className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded text-sm font-medium transition"
                       >
                         Update
-                      </Link>
+                      </button>
                       <button
                         onClick={() => handleDelete(query._id)}
                         className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition"
@@ -182,6 +226,69 @@ const MyQueries = () => {
           )}
         </div>
       </div>
+
+      {editingQuery && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[95%] max-w-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-700">Update Query</h2>
+            <div className="space-y-3">
+              <input
+                type="text"
+                name="productName"
+                value={formData.productName}
+                onChange={handleInputChange}
+                placeholder="Product Name"
+                className="w-full border px-4 py-2 rounded"
+              />
+              <input
+                type="text"
+                name="productBrand"
+                value={formData.productBrand}
+                onChange={handleInputChange}
+                placeholder="Product Brand"
+                className="w-full border px-4 py-2 rounded"
+              />
+              <input
+                type="text"
+                name="queryTitle"
+                value={formData.queryTitle}
+                onChange={handleInputChange}
+                placeholder="Query Title"
+                className="w-full border px-4 py-2 rounded"
+              />
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Description"
+                className="w-full border px-4 py-2 rounded"
+              ></textarea>
+              <input
+                type="text"
+                name="productImage"
+                value={formData.productImage}
+                onChange={handleInputChange}
+                placeholder="Product Image URL"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            <div className="flex justify-end mt-4 gap-2">
+              <button
+                onClick={() => setEditingQuery(null)}
+                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmitUpdate}
+                className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );
