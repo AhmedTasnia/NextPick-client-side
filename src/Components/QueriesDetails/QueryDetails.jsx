@@ -21,7 +21,7 @@ const QueryDetails = () => {
   useEffect(() => {
     const fetchQueryById = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/AddQueries/${id}`);
+        const res = await fetch(`https://next-pick-server.vercel.app/AddQueries/${id}`);
         if (!res.ok) throw new Error("Failed to fetch query");
         const data = await res.json();
         setQuery(data);
@@ -60,7 +60,7 @@ const QueryDetails = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/recommendations", {
+      const res = await fetch("https://next-pick-server.vercel.app/recommendations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

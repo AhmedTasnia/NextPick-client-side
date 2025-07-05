@@ -14,7 +14,7 @@ const MyRecommendations = () => {
 
     const fetchMyRecommendations = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/Recommendations?email=${user.email}`);
+        const res = await fetch(`https://next-pick-server.vercel.app/Recommendations?email=${user.email}`);
         const data = await res.json();
         setRecommendations(data);
       } catch (err) {
@@ -39,7 +39,7 @@ const MyRecommendations = () => {
 
     if (confirmResult.isConfirmed) {
       try {
-        const res = await fetch(`http://localhost:3000/recommendations/${recId}`, {
+        const res = await fetch(`https://next-pick-server.vercel.app/recommendations/${recId}`, {
           method: "DELETE",
         });
 
@@ -48,7 +48,7 @@ const MyRecommendations = () => {
         if (result.success) {
           setRecommendations(recommendations.filter((rec) => rec._id !== recId));
 
-          await fetch(`http://localhost:3000/decreaseRecommendationCount/${relatedQueryId}`, {
+          await fetch(`https://next-pick-server.vercel.app/decreaseRecommendationCount/${relatedQueryId}`, {
             method: "PATCH",
           });
 

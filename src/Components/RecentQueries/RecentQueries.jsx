@@ -11,7 +11,7 @@ const RecentQueries = () => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await fetch("http://localhost:3000/AddQueries");
+        const res = await fetch("https://next-pick-server.vercel.app/AddQueries");
         if (!res.ok) throw new Error("Failed to fetch queries");
         const data = await res.json();
 

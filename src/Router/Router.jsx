@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/AllQueries",
-    loader: () => fetch('http://localhost:3000/AddQueries'),
+    loader: () => fetch('https://next-pick-server.vercel.app/AddQueries'),
     Component: AllQueries,
   },
   {

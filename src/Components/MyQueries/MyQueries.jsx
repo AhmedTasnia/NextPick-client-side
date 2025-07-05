@@ -28,7 +28,7 @@ const MyQueries = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:3000/AddQueries?email=${encodeURIComponent(user.email)}`)
+    fetch(`https://next-pick-server.vercel.app/AddQueries?email=${encodeURIComponent(user.email)}`)
       .then((res) => res.json())
       .then((data) => {
         const sorted = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -48,7 +48,7 @@ const MyQueries = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/AddQueries/${id}`, {
+        fetch(`https://next-pick-server.vercel.app/AddQueries/${id}`, {
           method: "DELETE",
         })
           .then((res) => {
@@ -95,7 +95,7 @@ const MyQueries = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/update-query/${editingQuery._id}`, {
+      const res = await fetch(`https://next-pick-server.vercel.app/update-query/${editingQuery._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -128,6 +128,7 @@ const MyQueries = () => {
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
           <div className="relative z-10 text-center text-white px-4">
+            
             <h1 className="text-4xl md:text-5xl font-bold mb-8">My Queries</h1>
             <Link
               to="/AddQueries"

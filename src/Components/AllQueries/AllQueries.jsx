@@ -13,7 +13,7 @@ const AllQueries = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/AddQueries")
+    fetch("https://next-pick-server.vercel.app/AddQueries")
       .then((res) => res.json())
       .then((data) => {
         const sorted = data.sort(

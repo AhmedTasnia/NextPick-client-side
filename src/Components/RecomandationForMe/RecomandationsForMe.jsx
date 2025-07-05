@@ -13,7 +13,7 @@ const RecommendationsForMe = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const res = await fetch("http://localhost:3000/Recommendations");
+        const res = await fetch("https://next-pick-server.vercel.app/Recommendations");
         if (!res.ok) throw new Error("Failed to fetch recommendations");
         const data = await res.json();
 
@@ -101,7 +101,7 @@ const RecommendationsForMe = () => {
         {/* Table layout for md and above */}
         {recommendations.length > 0 && (
           <div className="overflow-x-auto shadow-lg rounded-lg hidden md:block">
-            <table className="min-w-full text-sm text-left bg-white border border-gray-200">
+            <table className="min-w-full text-lg text-left bg-white border border-gray-200">
               <thead className="bg-blue-100 text-gray-700 uppercase text-sm">
                 <tr>
                   <th className="px-4 py-3 border">#</th>

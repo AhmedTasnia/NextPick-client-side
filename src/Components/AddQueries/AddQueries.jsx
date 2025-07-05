@@ -32,7 +32,7 @@ const AddQuery = () => {
 
     console.log("Submitted Query:", fullQuery);
 
-    fetch ('http://localhost:3000/AddQueries', {
+    fetch ('https://next-pick-server.vercel.app/AddQueries', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",  },
@@ -139,7 +139,7 @@ return (
                             className="w-full px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
                         />
                     </div>
-
+ 
                     <div className="col-span-1">
                         <label className="block font-semibold text-blue-950 mb-1">👤 User Name</label>
                         <input
