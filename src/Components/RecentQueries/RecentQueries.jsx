@@ -32,9 +32,9 @@ const RecentQueries = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-blue-700 mb-10 text-center">
-        🆕 Recent Product Queries
+    <div className="container mx-auto px-4 py-12 noto-serif-Regular">
+      <h1 className="text-4xl noto-serif-Bold text-[#333446] mb-10 text-center">
+         Recent Product Queries
       </h1>
 
       {loading && <p className="text-center text-gray-600 text-xl">Loading...</p>}
@@ -74,8 +74,8 @@ const RecentQueries = () => {
               </p>
 
               <Link
-                to={user ? `/query-details/${query._id}` : "/login"} // ✅ conditional redirect
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded"
+                to={user ? `/query-details/${query._id}` : "/auth/login"} 
+                className="inline-block bg-blue-950 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded"
               >
                 View Details
               </Link>

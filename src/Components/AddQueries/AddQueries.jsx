@@ -61,22 +61,21 @@ return (
         <NavBar />
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 py-6 px-2 flex justify-center items-center">
             <div className="w-full max-w-5xl bg-white border border-blue-200 rounded-lg shadow-lg p-4 sm:p-6 md:p-10">
-                {/* Page Header */}
+              
                 <div className="text-center mb-8 md:mb-10">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-blue-700">📝 Share Your Product Concern</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-blue-950">📝 Share Your Product Concern</h1>
                     <p className="text-gray-600 mt-2 text-sm sm:text-base">
                         Submit your queries about products you’re not satisfied with and let others recommend better alternatives.
                     </p>
                 </div>
 
-                {/* Form Section */}
                 <form
                     onSubmit={handleSubmit}
                     className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-sm"
                 >
-                    {/* Product Name */}
+          
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">📦 Product Name</label>
+                        <label className="block font-semibold text-blue-950 mb-1">📦 Product Name</label>
                         <input
                             type="text"
                             name="productName"
@@ -88,9 +87,9 @@ return (
                         />
                     </div>
 
-                    {/* Product Brand */}
+        
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">🏷️ Product Brand</label>
+                        <label className="block font-semibold text-blue-950 mb-1">🏷️ Product Brand</label>
                         <input
                             type="text"
                             name="productBrand"
@@ -98,13 +97,12 @@ return (
                             onChange={handleChange}
                             placeholder="e.g., BrandCo"
                             required
-                            className="w-full px-3 py-2 border border-blue-300 rounded"
+                            className="w-full px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
                         />
                     </div>
 
-                    {/* Product Image URL */}
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">🖼️ Product Image URL</label>
+                        <label className="block font-semibold text-blue-950 mb-1">🖼️ Product Image URL</label>
                         <input
                             type="url"
                             name="productImage"
@@ -112,13 +110,12 @@ return (
                             onChange={handleChange}
                             placeholder="https://example.com/image.jpg"
                             required
-                            className="w-full px-3 py-2 border border-blue-300 rounded"
+                            className="w-full px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
                         />
                     </div>
 
-                    {/* Query Title */}
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">❓ Query Title</label>
+                        <label className="block font-semibold text-blue-950 mb-1">❓ Query Title</label>
                         <input
                             type="text"
                             name="queryTitle"
@@ -126,13 +123,12 @@ return (
                             onChange={handleChange}
                             placeholder="Is there any better product that gives me the same quality?"
                             required
-                            className="w-full px-3 py-2 border border-blue-300 rounded"
+                            className="w-full px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
                         />
                     </div>
 
-                    {/* Reason */}
                     <div className="col-span-1 md:col-span-2">
-                        <label className="block font-semibold text-blue-700 mb-1">💬 Boycotting Reason Details</label>
+                        <label className="block font-semibold text-blue-950 mb-1">💬 Boycotting Reason Details</label>
                         <textarea
                             name="reason"
                             value={formData.reason}
@@ -140,13 +136,12 @@ return (
                             rows={4}
                             placeholder="Explain why you are boycotting this product..."
                             required
-                            className="w-full px-3 py-2 border border-blue-300 rounded"
+                            className="w-full px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
                         />
                     </div>
 
-                    {/* User Name */}
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">👤 User Name</label>
+                        <label className="block font-semibold text-blue-950 mb-1">👤 User Name</label>
                         <input
                             type="text"
                             value={user?.displayName || "Anonymous"}
@@ -155,9 +150,8 @@ return (
                         />
                     </div>
 
-                    {/* User Email */}
                     <div className="col-span-1">
-                        <label className="block font-semibold text-blue-700 mb-1">📧 User Email</label>
+                        <label className="block font-semibold text-blue-950 mb-1">📧 User Email</label>
                         <input
                             type="email"
                             value={user?.email || "N/A"}
@@ -166,13 +160,12 @@ return (
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <div className="col-span-1 md:col-span-2 mt-4">
                         <button
                             type="submit"
-                            className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
+                            className="w-full bg-[#333446] hover:bg-blue-900 text-white font-semibold py-2 rounded"
                         >
-                            ➕ Add Query
+                             Add Query
                         </button>
                     </div>
                 </form>

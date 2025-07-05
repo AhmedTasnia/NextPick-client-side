@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash,FaEnvelope, FaLock } from "react-icons/fa";
 import NavBar from '../Header/NavBar';
 import { Link } from 'react-router';
 import Footer from '../Footer/Footer';
@@ -19,6 +20,9 @@ const Login = () => {
   // Refs
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  // Password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
@@ -124,26 +128,34 @@ const Login = () => {
             <p className="text-sm text-gray-600 mb-6">Hey! Enter your details to sign in to your account</p>
 
             <form onSubmit={handleLogin} className="space-y-4">
-              <div className="mb-4">
-                <label className="block text-sm text-gray-700 mb-1">Email</label>
+              <div className="relative">
+                <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
                 <input
                   ref={emailRef}
                   type="email"
                   name="email"
-                  placeholder="example@email.com"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2c2c78]"
+                  placeholder="Your Email"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm text-gray-700 mb-1">Password</label>
+              <div className=" relative">
+                 <FaLock className="absolute top-3 left-3 text-gray-400" />
                 <input
                   ref={passwordRef}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="••••••••"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2c2c78]"
+                  placeholder="Password"
+                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+
                 <div onClick={handleForgotPassword} className="text-right mt-1">
                   <button type="button" className="text-sm text-blue-600 hover:underline">Forgot password?</button>
                 </div>

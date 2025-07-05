@@ -8,7 +8,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 const AllQueries = () => {
   const [queries, setQueries] = useState([]);
   const [gridLayout, setGridLayout] = useState(3);
-  const [searchText, setSearchText] = useState(""); // ⬅️ Search input state
+  const [searchText, setSearchText] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -32,7 +32,6 @@ const AllQueries = () => {
     }
   };
 
-  // Filter queries based on search text
   const filteredQueries = queries.filter((query) =>
     query.productName?.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -40,14 +39,14 @@ const AllQueries = () => {
   return (
     <>
       <NavBar />
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mx-auto noto-serif-Regular px-4 py-10">
         {/* Header */}
         <div className="text-center py-12 px-6 rounded-2xl shadow-lg mb-10">
-          <h1 className="text-5xl font-extrabold text-blue-900 mb-4 drop-shadow">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 drop-shadow">
             All Queries
           </h1>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-            Here you'll find all queries submitted by users. Click ‘Recommend’ to support queries you find useful or interesting.
+          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto">
+            Here you'll find all queries submitted by users. Click ‘Recommend’ to support queries that you want to recommend a better product to help the user.
           </p>
         </div>
 
@@ -61,7 +60,7 @@ const AllQueries = () => {
             className="border px-4 py-2 rounded-lg shadow-sm w-full sm:w-1/2"
           />
 
-          <div className="flex justify-end gap-3">
+          <div className="flex justify-start sm:justify-end gap-3">
             {[1, 2, 3].map((n) => {
               const icons = [<FaThList />, <FaThLarge />, <FaTh />];
               const titles = ["1 Column", "2 Columns", "3 Columns"];

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import { Typewriter } from "react-simple-typewriter";
+import { useNavigate } from "react-router";
+import { AuthContext } from "../../provider/AuthProvider"; // ⬅️ Adjust path if needed
 
 const bannerSlides = [
   {
@@ -37,8 +39,19 @@ const bannerSlides = [
 ];
 
 const Banner = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleAddQueryClick = () => {
+    if (user) {
+      navigate("/AddQueries");
+    } else {
+      navigate("/auth/login");
+    }
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full noto-serif-Regular">
       <Fade arrows={false} autoplay={true} duration={5000} pauseOnHover={false}>
         {bannerSlides.map((slide, index) => (
           <div
@@ -48,7 +61,7 @@ const Banner = () => {
           >
             <div className="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
             <div className="relative z-10 text-center text-white px-6">
-              <h1 className="text-4xl md:text-6xl font-dynapuff mb-4 drop-shadow-lg">
+              <h1 className="text-4xl md:text-6xl noto-serif-Bold mb-4 drop-shadow-lg">
                 <Typewriter
                   key={index}
                   words={[slide.title]}
@@ -63,8 +76,11 @@ const Banner = () => {
               <p className="text-lg md:text-2xl fira-sans-medium drop-shadow-md">
                 {slide.subtitle}
               </p>
-              <button className="mt-6 px-6 py-3 font-fira-sans-semibold bg-[#fdfcf9] text-green-900 hover:bg-green-900 hover:text-white border-2 border-amber-100 transition rounded-full shadow">
-                Explore Now
+              <button
+                onClick={handleAddQueryClick}
+                className="mt-6 px-6 py-3 font-fira-sans-semibold bg-[#333446] text-white hover:bg-[#7F8CAA] hover:text-black border-2 transition rounded-full shadow"
+              >
+                Add a Query
               </button>
             </div>
           </div>

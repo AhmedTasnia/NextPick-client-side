@@ -114,8 +114,8 @@ const QueryDetails = () => {
   return (
     <>
       <NavBar />
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <h1 className="text-4xl font-bold text-blue-800 mb-6 text-center">Query Details</h1>
+      <div className="container mx-auto px-4 noto-serif-Regular py-12 max-w-7xl">
+        <h1 className="text-4xl font-bold text-[#333446] mb-6 text-center">Query Details</h1>
 
         <div className="bg-white shadow-lg rounded-lg p-6 grid gap-6 md:grid-cols-2 mb-12">
           <div>
@@ -134,21 +134,21 @@ const QueryDetails = () => {
             <p className="text-lg text-gray-700 mb-2">
               <span className="font-semibold">Brand:</span> {query.productBrand}
             </p>
-            <p className="text-md text-gray-600 mb-4">
-              <span className="font-semibold">Reason for Boycott:</span><br />
+            <p className="text-lg text-gray-600 mb-4">
+              <span className="font-semibold">Reason for Boycott: </span>
               {query.reason || "N/A"}
             </p>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-lg text-gray-500 mb-2">
               Posted on: {query.timestamp ? new Date(query.timestamp).toLocaleString() : "N/A"}
             </p>
-            <p className="text-blue-600 font-semibold text-lg">
+            <p className="text-blue-950 font-semibold text-lg">
               Recommendations: {query.recommendationCount ?? 0}
             </p>
           </div>
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-3xl font-semibold mb-6 text-center text-blue-700">
+          <h2 className="text-3xl font-semibold mb-6 text-center text-[#333446]">
             Add A Recommendation
           </h2>
 
@@ -215,7 +215,7 @@ const QueryDetails = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded"
+                className="bg-blue-950 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded"
               >
                 Add Recommendation
               </button>

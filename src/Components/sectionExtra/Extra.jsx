@@ -3,13 +3,13 @@ import { HelpCircle, Users, MessageCircleHeart } from "lucide-react";
 
 const Extra = () => {
   return (
-    <section className=" dark:bg-gray-900 py-16 px-4 md:px-10">
+    <section className=" dark:bg-gray-900 py-16 px-4 md:px-10 noto-serif-Regular">
       <div className="max-w-6xl mx-auto text-center">
         <h2
           className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4"
           data-aos="fade-up"
         >
-          📊 Platform Impact
+           Platform Impact
         </h2>
         <p
           className="text-lg text-gray-600 dark:text-gray-300 mb-12"

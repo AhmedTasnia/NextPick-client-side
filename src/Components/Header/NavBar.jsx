@@ -81,7 +81,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="px-4 navbar shadow-sm bg-[#333446] text-white">
+    <div className="px-4 navbar shadow-sm noto-serif-Regular  bg-[#333446] text-white">
       <div className="container mx-auto flex justify-between items-center">
         <div className="navbar-start">
           <div className="dropdown">
@@ -107,7 +107,7 @@ const NavBar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-[#333446] rounded-box z-10 mt-3 w-52 p-2 shadow"
             >
               {commonLinks}
               {privateLinks}
@@ -121,7 +121,7 @@ const NavBar = () => {
                 className="h-10 w-10 rounded-full object-cover"
               />
             </NavLink>
-            <h1 className="text-xl font-semibold hidden lg:block">
+            <h1 className="text-xl  noto-serif-Bold hidden lg:block">
               Next Pick
             </h1>
           </div>
@@ -134,7 +134,7 @@ const NavBar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end gap-3 flex items-center">
+        <div className="navbar-end noto-serif-Regular  gap-3 flex items-center">
           {user ? (
             <>
               <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ const NavBar = () => {
             </>
           ) : (
             <button
-              className="btn btn-sm bg-[#B8CFCE] text-black hover:bg-yellow-500 border-0"
+              className="btn btn-sm bg-[#7F8CAA] text-white hover:bg-[#EAEFEF] hover:text-black border-0"
               onClick={handleLoginClick}
             >
               Login

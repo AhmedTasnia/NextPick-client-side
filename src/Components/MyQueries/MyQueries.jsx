@@ -121,15 +121,14 @@ const MyQueries = () => {
   return (
     <>
       <NavBar />
-      <div>
+      <div className="noto-serif-Regular">
         <div
-          className="relative h-[70vh] w-full bg-cover bg-center flex items-center justify-center"
+          className="relative h-[70vh] w-full bg-cover bg-center noto-serif-Regular flex items-center justify-center"
           style={{ backgroundImage: "url('https://i.ibb.co/fn9hmtd/d6fc93bc-aaf4-4683-aa31-699548286a86.png')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
           <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">My Queries (Private)</h1>
-            <p className="text-lg mb-6">View and manage all your submitted queries here.</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-8">My Queries</h1>
             <Link
               to="/AddQueries"
               className="bg-[#e5cfa0] text-black px-6 py-2 font-semibold rounded hover:bg-[#d3b981] transition"
@@ -189,32 +188,32 @@ const MyQueries = () => {
                       className="w-full h-48 object-cover rounded-xl mb-4 shadow"
                     />
                     <h3 className="text-xl font-bold text-blue-900 mb-1">{query.queryTitle}</h3>
-                    <p className="text-sm text-gray-800 font-medium mb-1">
+                    <p className="text-sm text-gray-800  mb-1">
                       Product: <span className="font-semibold">{query.productName}</span>
                     </p>
-                    <p className="text-sm text-gray-700 mb-1">
+                    <p className="text-sm text-gray-800 mb-1">
                       Brand: <span className="font-medium">{query.productBrand}</span>
                     </p>
-                    <p className="text-sm text-gray-600 mb-2">{query.description}</p>
-                    <p className="text-xs text-gray-500 mb-4">
+                    <p className="text-sm text-gray-800 mb-2">{query.description}</p>
+                    <p className="text-sm text-gray-800 mb-4">
                       Posted on: {new Date(query.timestamp).toLocaleString()}
                     </p>
                     <div className="flex gap-2 flex-wrap mt-2">
                       <Link
                         to={`/query-details/${query._id}`}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition"
+                        className="bg-blue-950 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition"
                       >
                         View Details
                       </Link>
                       <button
                         onClick={() => handleUpdate(query)}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded text-sm font-medium transition"
+                        className="bg-yellow-400 hover:bg-yellow-600 text-white px-4 py-2 rounded text-sm font-medium transition"
                       >
                         Update
                       </button>
                       <button
                         onClick={() => handleDelete(query._id)}
-                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition"
+                        className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded text-sm font-medium transition"
                       >
                         Delete
                       </button>
