@@ -11,6 +11,9 @@ import {
   FaThLarge,
   FaThList,
 } from "react-icons/fa";
+import { secureFetch } from "../../utility/api";
+
+// Import secureFetch
 
 const MyQueries = () => {
   const { user } = useContext(AuthContext);
@@ -28,10 +31,16 @@ const MyQueries = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`https://next-pick-server.vercel.app/AddQueries?email=${encodeURIComponent(user.email)}`)
-      .then((res) => res.json())
+    secureFetch(
+      `https://next-pick-server.vercel.app/AddQueries?email=${encodeURIComponent(
+        user.email
+      )}`
+    )
+      .then((res) => res.data)
       .then((data) => {
-        const sorted = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        const sorted = data.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
         setQueries(sorted);
       })
       .catch((err) => console.error("Error fetching queries:", err));
@@ -48,11 +57,11 @@ const MyQueries = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://next-pick-server.vercel.app/AddQueries/${id}`, {
+        secureFetch(`https://next-pick-server.vercel.app/AddQueries/${id}`, {
           method: "DELETE",
         })
           .then((res) => {
-            if (!res.ok) throw new Error("Delete failed");
+            if (res.status !== 200) throw new Error("Delete failed");
             setQueries((prev) => prev.filter((q) => q._id !== id));
             Swal.fire("Deleted!", "Your query has been deleted.", "success");
           })
@@ -95,17 +104,17 @@ const MyQueries = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`https://next-pick-server.vercel.app/update-query/${editingQuery._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await secureFetch(
+        `https://next-pick-server.vercel.app/update-query/${editingQuery._id}`,
+        {
+          method: "PUT",
+          body: formData, // secureFetch will stringify JSON automatically
+        }
+      );
 
-      if (!res.ok) throw new Error("Failed to update query");
+      if (res.status !== 200) throw new Error("Failed to update query");
 
-      const updated = await res.json();
+      const updated = res.data;
       setQueries((prev) =>
         prev.map((q) => (q._id === editingQuery._id ? updated : q))
       );
@@ -118,17 +127,20 @@ const MyQueries = () => {
     }
   };
 
+  // Rest of your component JSX stays the same...
   return (
     <>
       <NavBar />
       <div className="noto-serif-Regular">
         <div
           className="relative h-[70vh] w-full bg-cover bg-center noto-serif-Regular flex items-center justify-center"
-          style={{ backgroundImage: "url('https://i.ibb.co/fn9hmtd/d6fc93bc-aaf4-4683-aa31-699548286a86.png')" }}
+          style={{
+            backgroundImage:
+              "url('https://i.ibb.co/fn9hmtd/d6fc93bc-aaf4-4683-aa31-699548286a86.png')",
+          }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
           <div className="relative z-10 text-center text-white px-4">
-            
             <h1 className="text-4xl md:text-5xl font-bold mb-8">My Queries</h1>
             <Link
               to="/AddQueries"
@@ -160,7 +172,9 @@ const MyQueries = () => {
                       key={cols}
                       onClick={() => setGridLayout(cols)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-4 ${
-                        gridLayout === cols ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                        gridLayout === cols
+                          ? "bg-blue-700 text-white"
+                          : "bg-gray-300 text-gray-700 hover:bg-gray-400"
                       }`}
                     >
                       {icons[idx]}
@@ -188,7 +202,9 @@ const MyQueries = () => {
                       alt={query.productName}
                       className="w-full h-48 object-cover rounded-xl mb-4 shadow"
                     />
-                    <h3 className="text-xl font-bold text-blue-900 mb-1">{query.queryTitle}</h3>
+                    <h3 className="text-xl font-bold text-blue-900 mb-1">
+                      {query.queryTitle}
+                    </h3>
                     <p className="text-sm text-gray-800  mb-1">
                       Product: <span className="font-semibold">{query.productName}</span>
                     </p>

@@ -3,6 +3,9 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
+import { secureFetch } from "../../utility/api";
+
+
 
 const MyRecommendations = () => {
   const { user } = useContext(AuthContext);
@@ -14,8 +17,10 @@ const MyRecommendations = () => {
 
     const fetchMyRecommendations = async () => {
       try {
-        const res = await fetch(`https://next-pick-server.vercel.app/Recommendations?email=${user.email}`);
-        const data = await res.json();
+        const res = await secureFetch(
+          `https://next-pick-server.vercel.app/Recommendations?email=${user.email}`
+        );
+        const data = res.data;
         setRecommendations(data);
       } catch (err) {
         console.error("Error fetching recommendations:", err);
@@ -39,18 +44,24 @@ const MyRecommendations = () => {
 
     if (confirmResult.isConfirmed) {
       try {
-        const res = await fetch(`https://next-pick-server.vercel.app/recommendations/${recId}`, {
-          method: "DELETE",
-        });
+        const res = await secureFetch(
+          `https://next-pick-server.vercel.app/recommendations/${recId}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-        const result = await res.json();
+        const result = res.data;
 
         if (result.success) {
           setRecommendations(recommendations.filter((rec) => rec._id !== recId));
 
-          await fetch(`https://next-pick-server.vercel.app/decreaseRecommendationCount/${relatedQueryId}`, {
-            method: "PATCH",
-          });
+          await secureFetch(
+            `https://next-pick-server.vercel.app/decreaseRecommendationCount/${relatedQueryId}`,
+            {
+              method: "PATCH",
+            }
+          );
 
           Swal.fire("Deleted!", "Recommendation has been deleted.", "success");
         } else {
@@ -100,7 +111,9 @@ const MyRecommendations = () => {
                       <td className="py-3 px-4 font-medium">{index + 1}</td>
                       <td className="py-3 px-4">
                         <img
-                          src={rec.recommendedProductImage || "https://via.placeholder.com/50"}
+                          src={
+                            rec.recommendedProductImage || "https://via.placeholder.com/50"
+                          }
                           alt={rec.recommendedProductName}
                           className="w-12 h-12 object-cover rounded"
                         />
@@ -131,12 +144,16 @@ const MyRecommendations = () => {
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={rec.recommendedProductImage || "https://via.placeholder.com/50"}
+                      src={
+                        rec.recommendedProductImage || "https://via.placeholder.com/50"
+                      }
                       alt={rec.recommendedProductName}
                       className="w-16 h-16 object-cover rounded"
                     />
                     <div>
-                      <div className="font-bold text-green-700 text-lg">{rec.recommendationTitle}</div>
+                      <div className="font-bold text-green-700 text-lg">
+                        {rec.recommendationTitle}
+                      </div>
                       <div className="text-xs text-gray-500">#{index + 1}</div>
                     </div>
                   </div>

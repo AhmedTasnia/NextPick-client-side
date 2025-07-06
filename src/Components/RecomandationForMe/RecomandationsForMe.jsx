@@ -3,6 +3,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
+import { secureFetch } from "../../utility/api";
 
 const RecommendationsForMe = () => {
   const { user } = useContext(AuthContext);
@@ -13,20 +14,23 @@ const RecommendationsForMe = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const res = await fetch("https://next-pick-server.vercel.app/Recommendations");
-        if (!res.ok) throw new Error("Failed to fetch recommendations");
-        const data = await res.json();
-
-        const filtered = data.filter(
-          (rec) =>
-            rec.queryOwnerEmail === user?.email &&
-            rec.recommenderEmail !== user?.email
+        // Your backend endpoint that requires JWT token in Authorization header
+        const res = await secureFetch(
+          `https://next-pick-server.vercel.app/recommendations-for-me?email=${user.email}`
         );
 
-        setRecommendations(filtered);
+        // Axios returns data in res.data
+        const data = res.data;
+
+        setRecommendations(data);
       } catch (err) {
         console.error(err);
-        setError("Failed to load recommendations.");
+        if (err.response && err.response.status === 401) {
+          setError("Unauthorized: Please login again.");
+          // Optional: trigger logout or redirect to login page
+        } else {
+          setError("Failed to load recommendations.");
+        }
       } finally {
         setLoading(false);
       }
@@ -48,9 +52,7 @@ const RecommendationsForMe = () => {
         {loading && (
           <p className="text-center text-gray-600 text-xl">Loading...</p>
         )}
-        {error && (
-          <p className="text-center text-red-600 text-xl">{error}</p>
-        )}
+        {error && <p className="text-center text-red-600 text-xl">{error}</p>}
 
         {!loading && !error && recommendations.length === 0 && (
           <p className="text-center text-gray-500 text-lg">
@@ -115,10 +117,7 @@ const RecommendationsForMe = () => {
               </thead>
               <tbody>
                 {recommendations.map((rec, index) => (
-                  <tr
-                    key={rec._id}
-                    className="hover:bg-gray-50 transition"
-                  >
+                  <tr key={rec._id} className="hover:bg-gray-50 transition">
                     <td className="px-4 py-3 border">{index + 1}</td>
                     <td className="px-4 py-3 border">
                       <img

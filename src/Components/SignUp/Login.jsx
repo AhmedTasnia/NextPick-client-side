@@ -53,6 +53,8 @@ const Login = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
+    console.log("Attempting login with:", { email, password });
+
     if (!email || !password) {
       Swal.fire({
         icon: "warning",

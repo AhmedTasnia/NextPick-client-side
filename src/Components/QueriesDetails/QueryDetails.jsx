@@ -4,6 +4,9 @@ import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { secureFetch } from "../../utility/api";
+
+
 
 const QueryDetails = () => {
   const { id } = useParams();
@@ -21,9 +24,8 @@ const QueryDetails = () => {
   useEffect(() => {
     const fetchQueryById = async () => {
       try {
-        const res = await fetch(`https://next-pick-server.vercel.app/AddQueries/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch query");
-        const data = await res.json();
+        const res = await secureFetch(`https://next-pick-server.vercel.app/AddQueries/${id}`);
+        const data = res.data;
         setQuery(data);
       } catch (err) {
         console.error(err);
@@ -60,15 +62,12 @@ const QueryDetails = () => {
     };
 
     try {
-      const res = await fetch("https://next-pick-server.vercel.app/recommendations", {
+      const res = await secureFetch("https://next-pick-server.vercel.app/recommendations", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recommendationData),
+        body: recommendationData,
       });
 
-      const result = await res.json();
+      const result = res.data;
 
       if (result.success) {
         Swal.fire("Success!", "Recommendation submitted successfully.", "success");

@@ -143,7 +143,7 @@ const NavBar = () => {
                   alt="User Avatar"
                   className="h-9 w-9 rounded-full object-cover"
                 />
-                <span className="hidden lg:block">{user.displayimg}</span>
+                <span className="hidden lg:block">{user.photoURL}</span>
               </div>
               <button
                 onClick={handleLogOut}
