@@ -1,10 +1,10 @@
-// src/components/AddQuery/AddQuery.jsx
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
 import NavBar from "../Header/NavBar";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
+// import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const AddQuery = () => {
   const { user } = useContext(AuthContext);
@@ -16,6 +16,8 @@ const AddQuery = () => {
     queryTitle: "",
     reason: "",
   });
+
+//   const axiosSecure = useAxiosSecure();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -49,6 +51,8 @@ const AddQuery = () => {
           body: fullQuery,
         }
       );
+
+    //   console.log('token', user?.accessToken);
 
       if (res.status === 201) {
         Swal.fire(

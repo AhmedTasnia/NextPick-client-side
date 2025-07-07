@@ -11,7 +11,8 @@ import {
   FaThLarge,
   FaThList,
 } from "react-icons/fa";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
+
 
 // Import secureFetch
 
@@ -27,6 +28,9 @@ const MyQueries = () => {
     description: "",
     productImage: "",
   });
+
+//  const axiosSecure = useAxiosSecure();
+
 
   useEffect(() => {
     if (!user?.email) return;

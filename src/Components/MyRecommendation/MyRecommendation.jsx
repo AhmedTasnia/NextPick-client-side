@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
 
 
 

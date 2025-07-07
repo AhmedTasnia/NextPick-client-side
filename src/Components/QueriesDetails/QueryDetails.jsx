@@ -4,7 +4,7 @@ import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
 
 
 

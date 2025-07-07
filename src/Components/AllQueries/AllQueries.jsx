@@ -4,7 +4,7 @@ import { FaHeart, FaTh, FaThLarge, FaThList } from "react-icons/fa";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
 import { AuthContext } from "../../provider/AuthProvider";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
 
 const AllQueries = () => {
   const [queries, setQueries] = useState([]);

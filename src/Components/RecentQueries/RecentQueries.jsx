@@ -2,8 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider";
 
+
+
 const RecentQueries = () => {
-  const { user } = useContext(AuthContext); // ✅ get user from context
+  const { user } = useContext(AuthContext); 
   const [recentQueries, setRecentQueries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

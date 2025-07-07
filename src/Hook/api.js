@@ -1,15 +1,31 @@
 import axios from "axios";
 import { auth } from "../Firebase/firebase.config";
+import { onAuthStateChanged } from "firebase/auth";
 
+function waitForFirebaseAuth() {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe(); 
+      resolve(user);
+    });
+  });
+}
 
 export async function secureFetch(url, options = {}) {
-  const user = auth.currentUser;
+  let user = auth.currentUser;
+
+
+  if (!user) {
+    user = await waitForFirebaseAuth();
+  }
+
   if (!user) {
     throw new Error("User not authenticated");
   }
 
-  // Get Firebase ID token (JWT)
-  const idToken = await user.getIdToken(/* forceRefresh= */ true);
+  const idToken = await user.getIdToken(true);
+
+   console.log("Firebase JWT Token:", idToken);
 
   const headers = {
     ...(options.headers || {}),

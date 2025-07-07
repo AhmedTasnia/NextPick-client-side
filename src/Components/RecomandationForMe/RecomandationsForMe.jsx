@@ -3,7 +3,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
-import { secureFetch } from "../../utility/api";
+import { secureFetch } from "../../Hook/api";
 
 const RecommendationsForMe = () => {
   const { user } = useContext(AuthContext);
@@ -14,12 +14,10 @@ const RecommendationsForMe = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        // Your backend endpoint that requires JWT token in Authorization header
         const res = await secureFetch(
           `https://next-pick-server.vercel.app/recommendations-for-me?email=${user.email}`
         );
 
-        // Axios returns data in res.data
         const data = res.data;
 
         setRecommendations(data);
@@ -27,7 +25,6 @@ const RecommendationsForMe = () => {
         console.error(err);
         if (err.response && err.response.status === 401) {
           setError("Unauthorized: Please login again.");
-          // Optional: trigger logout or redirect to login page
         } else {
           setError("Failed to load recommendations.");
         }
