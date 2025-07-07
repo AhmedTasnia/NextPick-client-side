@@ -2,10 +2,11 @@ import axios from "axios";
 import { auth } from "../Firebase/firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
 
+// Wait for Firebase auth if not immediately available
 function waitForFirebaseAuth() {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe(); 
+      unsubscribe();
       resolve(user);
     });
   });
@@ -13,7 +14,6 @@ function waitForFirebaseAuth() {
 
 export async function secureFetch(url, options = {}) {
   let user = auth.currentUser;
-
 
   if (!user) {
     user = await waitForFirebaseAuth();
@@ -25,18 +25,22 @@ export async function secureFetch(url, options = {}) {
 
   const idToken = await user.getIdToken(true);
 
-   console.log("Firebase JWT Token:", idToken);
-
   const headers = {
     ...(options.headers || {}),
     Authorization: `Bearer ${idToken}`,
     "Content-Type": "application/json",
   };
 
-  return axios({
+  const axiosConfig = {
     url,
     method: options.method || "GET",
-    data: options.body || null,
     headers,
-  });
+  };
+
+  // Only attach body for non-GET, non-DELETE methods
+  if (options.body && !["GET", "DELETE"].includes(options.method)) {
+    axiosConfig.data = options.body;
+  }
+
+  return axios(axiosConfig);
 }

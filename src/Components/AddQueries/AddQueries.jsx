@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
 import NavBar from "../Header/NavBar";
 import { secureFetch } from "../../Hook/api";
-// import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const AddQuery = () => {
   const { user } = useContext(AuthContext);
@@ -17,7 +16,6 @@ const AddQuery = () => {
     reason: "",
   });
 
-//   const axiosSecure = useAxiosSecure();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,7 +50,6 @@ const AddQuery = () => {
         }
       );
 
-    //   console.log('token', user?.accessToken);
 
       if (res.status === 201) {
         Swal.fire(

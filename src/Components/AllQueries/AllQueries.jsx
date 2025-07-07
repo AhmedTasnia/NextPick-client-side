@@ -21,18 +21,15 @@ const AllQueries = () => {
       setError("");
       try {
         let data;
-        // If you want protected route:
         if (user) {
           const res = await secureFetch("https://next-pick-server.vercel.app/AddQueries");
           data = res.data;
         } else {
-          // fallback to public fetch
           const res = await fetch("https://next-pick-server.vercel.app/AddQueries");
           if (!res.ok) throw new Error("Failed to fetch queries");
           data = await res.json();
         }
 
-        // Sort by timestamp descending
         const sorted = data.sort(
           (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
         );
@@ -56,7 +53,6 @@ const AllQueries = () => {
     }
   };
 
-  // Filter queries by productName search
   const filteredQueries = queries.filter((query) =>
     query.productName?.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -65,7 +61,6 @@ const AllQueries = () => {
     <>
       <NavBar />
       <div className="container mx-auto noto-serif-Regular px-4 py-10">
-        {/* Header */}
         <div className="text-center py-12 px-6 rounded-2xl shadow-lg mb-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 drop-shadow">
             All Queries
@@ -75,7 +70,6 @@ const AllQueries = () => {
           </p>
         </div>
 
-        {/* Search + Layout Toggle */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <input
             type="text"
@@ -110,17 +104,14 @@ const AllQueries = () => {
           </div>
         </div>
 
-        {/* Loading */}
         {loading && (
           <p className="text-center text-gray-600 text-xl mb-8">Loading queries...</p>
         )}
 
-        {/* Error */}
         {error && (
           <p className="text-center text-red-600 text-xl mb-8">{error}</p>
         )}
 
-        {/* Grid of Cards */}
         {!loading && !error && (
           <div
             className={`grid gap-8 ${
@@ -148,11 +139,9 @@ const AllQueries = () => {
                     {query.queryTitle || "Untitled Query"}
                   </h2>
                   <h3 className="text-md text-blue-500 font-medium mb-2 italic">
-                    {/* You had query.queryTitle here, I replaced with queryTitle only */}
                     {query.reason || ""}
                   </h3>
                   <p className="text-gray-700 mb-3">
-                    {/* No description field in your schema, so removed */}
                   </p>
                   <div className="text-sm text-gray-600 mb-1">
                     <strong>Product Name:</strong> {query.productName || "N/A"}

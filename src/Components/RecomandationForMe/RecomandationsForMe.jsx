@@ -57,7 +57,6 @@ const RecommendationsForMe = () => {
           </p>
         )}
 
-        {/* Card layout for small devices */}
         <div className="grid gap-6 md:hidden">
           {recommendations.map((rec, index) => (
             <div
@@ -97,7 +96,6 @@ const RecommendationsForMe = () => {
           ))}
         </div>
 
-        {/* Table layout for md and above */}
         {recommendations.length > 0 && (
           <div className="overflow-x-auto shadow-lg rounded-lg hidden md:block">
             <table className="min-w-full text-lg text-left bg-white border border-gray-200">

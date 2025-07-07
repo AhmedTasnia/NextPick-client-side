@@ -14,7 +14,6 @@ import {
 import { secureFetch } from "../../Hook/api";
 
 
-// Import secureFetch
 
 const MyQueries = () => {
   const { user } = useContext(AuthContext);
@@ -29,7 +28,6 @@ const MyQueries = () => {
     productImage: "",
   });
 
-//  const axiosSecure = useAxiosSecure();
 
 
   useEffect(() => {
@@ -112,7 +110,7 @@ const MyQueries = () => {
         `https://next-pick-server.vercel.app/update-query/${editingQuery._id}`,
         {
           method: "PUT",
-          body: formData, // secureFetch will stringify JSON automatically
+          body: formData, 
         }
       );
 
@@ -131,7 +129,6 @@ const MyQueries = () => {
     }
   };
 
-  // Rest of your component JSX stays the same...
   return (
     <>
       <NavBar />
