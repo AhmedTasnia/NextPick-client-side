@@ -176,20 +176,7 @@ const AllQueries = () => {
                       </button>
                     </div>
                   </div>
-                  {/* <button
-                    onClick={() => handleShowRecommendations(query._id)}
-                    className="bg-gray-200 hover:bg-blue-900 text-gray-700 hover:text-white px-3 py-2 mt-3 rounded-lg text-md font-medium w-full sm:w-auto whitespace-nowrap"
-                  >
-                    Show Recommendations
-                  </button> */}
-                      {/* <Link to={user ? `/Recommendations/${query._id}` : "/auth/login"}>
-                       <button
-                    onClick={() => handleShowRecommendations(query._id)}
-                    className="bg-gray-200 hover:bg-blue-900 text-gray-700 hover:text-white px-3 py-2 mt-3 rounded-lg text-md font-medium w-full sm:w-auto whitespace-nowrap"
-                  >
-                    Show Recommendations
-                  </button>
-                    </Link> */}
+                
                     <Link to={user ? `/Recommendations/${query._id}` : "/auth/login"}>
                     <button
                       onClick={() => handleShowRecommendations(query._id)}
