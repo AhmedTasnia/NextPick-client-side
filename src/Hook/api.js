@@ -2,7 +2,6 @@ import axios from "axios";
 import { auth } from "../Firebase/firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
 
-// Wait for Firebase auth if not immediately available
 function waitForFirebaseAuth() {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

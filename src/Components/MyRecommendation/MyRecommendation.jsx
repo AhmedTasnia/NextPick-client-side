@@ -63,7 +63,7 @@ const MyRecommendations = () => {
             }
           );
 
-          Swal.fire("Deleted!", "Recommendation has been deleted.", "success");
+          Swal.fire("✅ Deleted!", "Recommendation has been deleted.", "success");
         } else {
           Swal.fire("Error!", result.message || "Failed to delete.", "error");
         }

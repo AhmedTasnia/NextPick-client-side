@@ -10,6 +10,7 @@ import AllQueries from '../Components/AllQueries/AllQueries';
 import QueryDetails from '../Components/QueriesDetails/QueryDetails';
 import MyRecommandation from '../Components/MyRecommendation/MyRecommendation';
 import RecommendationsForMe from '../Components/RecomandationForMe/RecomandationsForMe';
+import AllRecommendations from '../Components/AllRecommandations/AllRecommandations';
 
 
 
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
    {
     path: "/RecommendationsForMe",
     Component: RecommendationsForMe,
+  },
+  {
+    path: "/Recommendations/:id",
+    Component: AllRecommendations,
   },
 
   

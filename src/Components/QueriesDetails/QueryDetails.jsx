@@ -127,6 +127,12 @@ const QueryDetails = () => {
 
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{query.queryTitle}</h2>
+            {/* <p className="text-lg text-gray-700 mb-2">
+              <span className="font-semibold">Product Name:</span> {query.queryOwnerName}
+            </p>
+            <p className="text-lg text-gray-700 mb-2">
+              <span className="font-semibold">Product Name:</span> {query.queryOwnerEmail}
+            </p> */}
             <p className="text-lg text-gray-700 mb-2">
               <span className="font-semibold">Product Name:</span> {query.productName}
             </p>

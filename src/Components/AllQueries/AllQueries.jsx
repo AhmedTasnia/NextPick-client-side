@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router"; // react-router-dom, not react-router
+import { Link, useNavigate } from "react-router";
 import { FaHeart, FaTh, FaThLarge, FaThList } from "react-icons/fa";
 import NavBar from "../Header/NavBar";
 import Footer from "../Footer/Footer";
@@ -22,10 +22,14 @@ const AllQueries = () => {
       try {
         let data;
         if (user) {
-          const res = await secureFetch("https://next-pick-server.vercel.app/AddQueries");
+          const res = await secureFetch(
+            "https://next-pick-server.vercel.app/AddQueries"
+          );
           data = res.data;
         } else {
-          const res = await fetch("https://next-pick-server.vercel.app/AddQueries");
+          const res = await fetch(
+            "https://next-pick-server.vercel.app/AddQueries"
+          );
           if (!res.ok) throw new Error("Failed to fetch queries");
           data = await res.json();
         }
@@ -53,6 +57,10 @@ const AllQueries = () => {
     }
   };
 
+  const handleShowRecommendations = (queryId) => {
+    navigate(`/Recommendations/${queryId}`);
+  };
+
   const filteredQueries = queries.filter((query) =>
     query.productName?.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -60,13 +68,15 @@ const AllQueries = () => {
   return (
     <>
       <NavBar />
-      <div className="container mx-auto noto-serif-Regular px-4 py-10">
+      <div className="container mx-auto noto-serif-Regular px-4 py-10 max-w-screen-xl">
         <div className="text-center py-12 px-6 rounded-2xl shadow-lg mb-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 drop-shadow">
             All Queries
           </h1>
           <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto">
-            Here you'll find all queries submitted by users. Click ‘Recommend’ to support queries that you want to recommend a better product to help the user.
+            Here you'll find all queries submitted by users. Click ‘Recommend’ to
+            support queries that you want to recommend a better product to help
+            the user.
           </p>
         </div>
 
@@ -105,7 +115,9 @@ const AllQueries = () => {
         </div>
 
         {loading && (
-          <p className="text-center text-gray-600 text-xl mb-8">Loading queries...</p>
+          <p className="text-center text-gray-600 text-xl mb-8">
+            Loading queries...
+          </p>
         )}
 
         {error && (
@@ -114,7 +126,7 @@ const AllQueries = () => {
 
         {!loading && !error && (
           <div
-            className={`grid gap-8 ${
+            className={`grid gap-6 sm:gap-8 ${
               gridLayout === 1
                 ? "grid-cols-1"
                 : gridLayout === 2
@@ -132,39 +144,61 @@ const AllQueries = () => {
                     <img
                       src={query.productImage}
                       alt={query.productName}
-                      className="w-full h-48 object-cover rounded-md mb-4"
+                      className="w-full h-48 sm:h-56 md:h-64 object-cover rounded-md mb-4"
                     />
                   )}
-                  <h2 className="text-2xl font-bold text-blue-800 mb-1">
+                  <h2 className="text-2xl font-bold text-blue-800 mb-1 break-words">
                     {query.queryTitle || "Untitled Query"}
                   </h2>
-                  <h3 className="text-md text-blue-500 font-medium mb-2 italic">
+                  <h3 className="text-md text-blue-500 font-medium mb-2 italic break-words">
                     {query.reason || ""}
                   </h3>
-                  <p className="text-gray-700 mb-3">
-                  </p>
                   <div className="text-sm text-gray-600 mb-1">
                     <strong>Product Name:</strong> {query.productName || "N/A"}
                   </div>
                   <div className="text-sm text-gray-600 mb-1">
                     <strong>Product Brand:</strong> {query.productBrand || "N/A"}
                   </div>
-                  <div className="text-sm text-gray-500 mb-4">
+                  <div className="text-sm text-gray-500 mb-4 break-words">
                     Posted on: {new Date(query.timestamp).toLocaleString()}
                   </div>
-                  <div className="flex justify-between items-center mt-auto pt-4 border-t">
-                    <span className="text-blue-700 font-semibold text-sm">
+                  <div className="flex flex-col sm:flex-row justify-between items-center mt-auto pt-4 border-t gap-2">
+                    <span className="text-blue-700 font-semibold text-sm whitespace-nowrap">
                       💙 {query.recommendationCount || 0} Recommendations
                     </span>
-                    <button
-                      onClick={() => handleRecommendClick(query._id)}
-                      className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center gap-2 text-sm font-medium"
-                      aria-label={`Recommend query titled ${query.queryTitle}`}
-                    >
-                      <FaHeart />
-                      Recommend
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleRecommendClick(query._id)}
+                        className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-3 py-1 rounded-lg hover:from-blue-600 hover:to-blue-800 transition text-sm font-medium whitespace-nowrap"
+                      >
+                        <FaHeart className="inline mr-1" />
+                        Recommend
+                      </button>
+                    </div>
                   </div>
+                  {/* <button
+                    onClick={() => handleShowRecommendations(query._id)}
+                    className="bg-gray-200 hover:bg-blue-900 text-gray-700 hover:text-white px-3 py-2 mt-3 rounded-lg text-md font-medium w-full sm:w-auto whitespace-nowrap"
+                  >
+                    Show Recommendations
+                  </button> */}
+                      {/* <Link to={user ? `/Recommendations/${query._id}` : "/auth/login"}>
+                       <button
+                    onClick={() => handleShowRecommendations(query._id)}
+                    className="bg-gray-200 hover:bg-blue-900 text-gray-700 hover:text-white px-3 py-2 mt-3 rounded-lg text-md font-medium w-full sm:w-auto whitespace-nowrap"
+                  >
+                    Show Recommendations
+                  </button>
+                    </Link> */}
+                    <Link to={user ? `/Recommendations/${query._id}` : "/auth/login"}>
+                    <button
+                      onClick={() => handleShowRecommendations(query._id)}
+                      className="bg-gray-200 hover:bg-blue-900 text-gray-700 hover:text-white px-3 py-2 mt-3 rounded-lg text-md font-medium w-full whitespace-nowrap"
+                    >
+                      Show Recommendations
+                    </button>
+                  </Link>
+
                 </div>
               ))
             ) : (
