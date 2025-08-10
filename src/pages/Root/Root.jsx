@@ -6,6 +6,7 @@ import RecentQueries from '../../Components/RecentQueries/RecentQueries';
 import HowThisWorks from '../../Components/HowThisWorks/HowThisWorks';
 import Impact from '../../Components/Impact/Impact';
 import Extra from '../../Components/sectionExtra/Extra';
+import FeaturedEthicalBrands from '../../Components/FeaturedEthicalBrand/FeaturedEthicalBrand';
 
 const Root = () => {
     
@@ -15,6 +16,7 @@ const Root = () => {
             <Banner></Banner>
             <RecentQueries></RecentQueries>
             <HowThisWorks></HowThisWorks>
+            <FeaturedEthicalBrands></FeaturedEthicalBrands>
             <Impact></Impact>
             <Extra></Extra>
             <Footer></Footer>
