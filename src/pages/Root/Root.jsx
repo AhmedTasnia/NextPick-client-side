@@ -7,6 +7,7 @@ import HowThisWorks from '../../Components/HowThisWorks/HowThisWorks';
 import Impact from '../../Components/Impact/Impact';
 import Extra from '../../Components/sectionExtra/Extra';
 import FeaturedEthicalBrands from '../../Components/FeaturedEthicalBrand/FeaturedEthicalBrand';
+import Highlights from '../../Components/Highlights/Highlights';
 
 const Root = () => {
     
@@ -18,6 +19,7 @@ const Root = () => {
             <HowThisWorks></HowThisWorks>
             <FeaturedEthicalBrands></FeaturedEthicalBrands>
             <Impact></Impact>
+            <Highlights></Highlights>
             <Extra></Extra>
             <Footer></Footer>
         </div>
