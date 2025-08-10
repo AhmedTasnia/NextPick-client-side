@@ -63,7 +63,6 @@ export const router = createBrowserRouter([
     path: "/Recommendations/:id",
     Component: AllRecommendations,
   },
-
   
 ]);
 

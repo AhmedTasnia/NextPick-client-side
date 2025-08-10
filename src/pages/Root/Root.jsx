@@ -1,5 +1,4 @@
 import React from 'react';
-import { Outlet } from 'react-router';
 import NavBar from '../../Components/Header/NavBar';
 import Footer from '../../Components/Footer/Footer';
 import Banner from '../../Components/Banner/Banner';
@@ -18,7 +17,6 @@ const Root = () => {
             <HowThisWorks></HowThisWorks>
             <Impact></Impact>
             <Extra></Extra>
-           
             <Footer></Footer>
         </div>
     );

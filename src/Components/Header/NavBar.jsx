@@ -81,7 +81,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="px-4 navbar shadow-sm noto-serif-Regular  bg-[#333446] text-white">
+    <div className="px-10 navbar shadow-sm noto-serif-Regular  bg-[#333446] text-white">
       <div className="container mx-auto flex justify-between items-center">
         <div className="navbar-start">
           <div className="dropdown">
@@ -147,14 +147,14 @@ const NavBar = () => {
               </div>
               <button
                 onClick={handleLogOut}
-                className="btn btn-sm bg-red-600 text-white hover:bg-red-700 border-0"
+                className="btn btn-sm bg-red-600 rounded-lg text-white hover:bg-red-700 border-0"
               >
                 Logout
               </button>
             </>
           ) : (
             <button
-              className="btn btn-sm bg-[#7F8CAA] text-white hover:bg-[#EAEFEF] hover:text-black border-0"
+              className="btn btn-sm bg-[#7F8CAA] rounded-lg text-white hover:bg-[#EAEFEF] hover:text-black border-0"
               onClick={handleLoginClick}
             >
               Login
